@@ -1,0 +1,33 @@
+{
+  "name": "lib-calvenapi",
+  "version": "1.0.0",
+  "description": "Library for use with the Calven customer-facing API",
+  "main": "index.js",
+  "repository": "git@github.com/calven-code/lib-calvenapi.git",
+  "author": "Engineering@calven.com",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=16.17.0"
+  },
+  "scripts": {
+    "clean": "rm -rf index.d.ts && rm -rf index.js && rm -rf index.js.map && rm -rf tsconfig.build.json",
+    "lint": "eslint \"{instance,auth,cache,exception,firebase,firestore,logger,pub-sub,scopes,sentry,svc-client,tran-locker,utils,tests}/**/*.ts\" --max-warnings=0",
+    "format": "prettier --write \"{instance,auth,cache,exception,firebase,firestore,logger,pub-sub,scopes,sentry,svc-client,tran-locker,utils,tests}/**/*.ts\"",
+    "build": "rm -rf dist && tsc -p ./tsconfig.build.json",
+    "artifact-registry-login": "cp .npmrc.template .npmrc && npx google-artifactregistry-auth ./.npmrc",
+    "arl": "yarn artifact-registry-login",
+    "arl:local": "cp .npmrc.template .npmrc && npx google-artifactregistry-auth --repo-config",
+    "test": "APP_ENV=test NODE_ENV=test FIRESTORE_EMULATOR_HOST=localhost:9090 LOG_LEVEL=warn jest --config ./tests/jest-integrations.config.ts --testTimeout 60000 --verbose --silent",
+    "test:dev": "APP_ENV=test NODE_ENV=test FIRESTORE_EMULATOR_HOST=localhost:9090 LOG_LEVEL=silly jest --config ./tests/jest-integrations.config.ts --testTimeout 60000 --verbose",
+    "test:ci": "APP_ENV=ci NODE_ENV=ci jest --config ./tests/jest-integrations.config.ts --forceExit",
+    "test:debug": "NODE_ENV=test FIRESTORE_EMULATOR_HOST=0.0.0.0:9090 LOG_LEVEL=warn jest --config ./test/jest-integrations.config.ts --testTimeout 60000"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "crypto": "^1.0.1",
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.5"
+  }
+}
