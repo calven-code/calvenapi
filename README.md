@@ -24,47 +24,55 @@ Each method accepts an API Key and an API key secret.  You can optionally provid
 ### Occupancy client
 
 ```typescript
-import { CalvenClient, CalvenTimeOffEvent, CalvenTimeOffEventType } from '@calven/client'
+import { CalvenClient, CalvenOccupancyEvent, CalvenLocationType } from '@calven/client'
+import {v4 as uuidv4} from 'uuid'
 
-const timeoffClient = CalvenClient.occupancyClient(apiKey,apiSecret)
+const occupancyClient = CalvenClient.occupancyClient(apiKey,apiSecret)
 
-const timeOffEvent: CalvenTimeOffEvent = {
-  startDate: new Date(),
-  endDate: new Date(),
-  email:'Mary.Jones@example.com',
-  eventType: CalvenTimeOffEventType.SCHEDULED,
-  timeOffType: CalvenTimeOffType.LEAVE
+const occupancyEvent: CalvenOccupancyEvent = {
+  eventId: uuidv4(),
+  timestamp: new Date(),
+  locationId: 'DF253A05-573C-4A9F-BFF8-64795029572D',
+  locationType: CalvenLocationType.LOCATION,
+  occupied: true,
+  occupancy: 5,
 }
 
-const timeOffResult = await timeoffClient.sendTimeoff('my-source-id',[timeOffEvent])
+const occupancyResult = await occupancyClient.sendOccupancy('my-source-id',[occupancyEvent])
 ```
 
 ### Presence client
 
 ```typescript
-import { CalvenClient, CalvenTimeOffEvent, CalvenTimeOffEventType } from '@calven/client'
+import { CalvenClient, CalvenPresenceEvent, CalvenLocationType } from '@calven/client'
+import {v4 as uuidv4} from 'uuid'
 
-const timeoffClient = CalvenClient.timeoffClient(apiKey,apiSecret)
+const presenceClient = CalvenClient.presenceClient(apiKey,apiSecret)
 
-const timeOffEvent: CalvenTimeOffEvent = {
-  startDate: new Date(),
-  endDate: new Date(),
-  email:'Mary.Jones@example.com',
+const presenceEvent: CalvenPresenceEvent = {
+  eventId: uuidv4(),
+  timestamp: new Date(),
+  sourceUserId:'1234',
+  userEmail:'Mary.Jones@example.com',
+  locationId: 'DF253A05-573C-4A9F-BFF8-64795029572D',
+  locationType: CalvenLocationType.LOCATION,
   eventType: CalvenTimeOffEventType.SCHEDULED,
   timeOffType: CalvenTimeOffType.LEAVE
 }
 
-const timeOffResult = await timeoffClient.sendTimeoff('my-source-id',[timeOffEvent])
+const presenceResult = await presenceClient.sendPresence('my-source-id',[presenceEvent])
 ```
 
 ### Timeoff client
 
 ```typescript
 import { CalvenClient, CalvenTimeOffEvent, CalvenTimeOffEventType } from '@calven/client'
+import {v4 as uuidv4} from 'uuid'
 
 const timeoffClient = CalvenClient.timeoffClient(apiKey,apiSecret)
 
 const timeOffEvent: CalvenTimeOffEvent = {
+  eventId:uuidv4(),
   startDate: new Date(),
   endDate: new Date(),
   email:'Mary.Jones@example.com',
